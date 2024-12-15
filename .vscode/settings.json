@@ -1,0 +1,18 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPathWin": "C:/Espressif/frameworks/esp-idf-v5.1.4/",
+    "idf.openOcdConfigs": [
+        "board/esp32s3-builtin.cfg"
+    ],
+    "idf.toolsPathWin": "c:\\Espressif\\python_env\\idf5.1_py3.11_env",
+    "idf.portWin": "COM5",
+    "files.associations": {
+        "*.dbclient-js": "javascript",
+        "*.h": "c",
+        "screen": "cpp",
+        "utility": "c",
+        "tuple": "c",
+        "limits": "cpp"
+    },
+    "idf.flashType": "UART"
+}
