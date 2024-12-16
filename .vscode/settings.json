@@ -1,18 +1,33 @@
 {
     "C_Cpp.intelliSenseEngine": "default",
-    "idf.espIdfPathWin": "C:/Espressif/frameworks/esp-idf-v5.1.4/",
+    "idf.espIdfPathWin": "C:\\Users\\xfp57\\esp\\v5.2.3\\esp-idf",
     "idf.openOcdConfigs": [
-        "board/esp32s3-builtin.cfg"
+        "interface/ftdi/esp32_devkitj_v1.cfg",
+        "target/esp32.cfg"
     ],
-    "idf.toolsPathWin": "c:\\Espressif\\python_env\\idf5.1_py3.11_env",
-    "idf.portWin": "COM5",
+    "idf.portWin": "COM14",
+    "idf.toolsPathWin": "c:\\Espressif\\python_env\\idf5.2_py3.11_env",
+    "idf.flashType": "UART",
     "files.associations": {
         "*.dbclient-js": "javascript",
         "*.h": "c",
-        "screen": "cpp",
-        "utility": "c",
-        "tuple": "c",
-        "limits": "cpp"
-    },
-    "idf.flashType": "UART"
+        "limits": "cpp",
+        "array": "c",
+        "deque": "c",
+        "list": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "string_view": "c",
+        "format": "c",
+        "initializer_list": "c",
+        "span": "c",
+        "regex": "c",
+        "*.tcc": "cpp",
+        "chrono": "cpp",
+        "memory": "cpp",
+        "random": "cpp",
+        "mutex": "cpp",
+        "cstdint": "c"
+    }
 }

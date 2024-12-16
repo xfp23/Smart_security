@@ -1,12 +1,29 @@
 #ifndef HAL_IDF_BLETOOTH_H
 #define HAL_IDF_BLETOOTH_H
 
-/**
+/******************************************************************************
  * @file hal_idf_bletooth.h
- * @brief IDF 蓝牙模块的封装
- * @author xfp23 @github.com/xfp23
- * @data 2024-08-02 
- */
+ * @brief ESP蓝牙驱动
+ *
+ * Copyright (C) 2024, xfp23. All rights reserved.
+ *
+ * @author xfp23 (@github.com/xfp23)
+ * @date 2024-8-23
+ * 
+ * This software is provided "as is", without any warranties or guarantees, 
+ * either express or implied, including but not limited to the implied warranties 
+ * of merchantability and fitness for a particular purpose. In no event shall the 
+ * author be liable for any damages, including direct, indirect, incidental, or 
+ * consequential damages, arising from the use of this software.
+ * 
+ * Permission is hereby granted, free of charge, to use, copy, modify, and/or 
+ * distribute this software, provided that the above copyright notice and this 
+ * permission notice are included in all copies or substantial portions of the software.
+ *
+ * This software is also licensed under the MIT License.
+ * 
+ *****************************************************************************/
+
 
 #ifdef __cplusplus
 extern "C"
@@ -15,6 +32,7 @@ extern "C"
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "user_queue.h"
 // #include "init_System.h"
 #include <string.h>
 #include <inttypes.h>
@@ -273,6 +291,8 @@ enum
 
     extern void InitBle_adv(char *ble_name, uint16_t service_uuid, uint16_t char_uuid, int appear);
     extern ESP_Class_ble_t ESP_BLE;
+    // extern user_queue_t BLE_QUEUE;
+//    extern esp_ble_adv_data_t adv_data; // 发送数据的广播数据
 #ifdef __cplusplus
 }
 #endif

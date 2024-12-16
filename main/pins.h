@@ -1,20 +1,16 @@
 #ifndef PINS_H
 #define PINS_H
 
-#ifdef __cplusplus
-extern "C" {
+#define BEEP_PIN GPIO_NUM_23
+#define MQ2_DIG_PIN GPIO_NUM_19
+#define MQ2_AN_PIN GPIO_NUM_18
+#define OLED_DO_PIN GPIO_NUM_34
+#define OLED_DI_PIN GPIO_NUM_35//
+#define OLED_RES_Pin GPIO_NUM_32//
+#define OLED_DC_Pin GPIO_NUM_33//
+#define OLED_CS_Pin GPIO_NUM_25 //
+#define DHT11_PIN GPIO_NUM_22
+
+
+
 #endif
-
-#define OLED_MOSI 1
-#define OLED_CLK 2
-#define OLED_CS 3
-#define OLED_RESET 4
-#define OLED_DC 5
-#define BEEP 
-#define SW1 
-
-
-#ifdef __cplusplus
-}
-#endif
-#endif // PINS_H

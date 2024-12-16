@@ -1,14 +1,19 @@
 #include <stdio.h>
-#include <Arduino.h>
-#include "hal_idf_bletooth.h"
-void setup() {
-    
-Serial.begin(115200);
-InitBle_adv("Smart Security",DEFAULT_SERVICE_UUID,DEFAULT_CHAR_UUID,APPEARANCE_GENERIC_ACTUATOR);
-}
+#include "hal_idf.h"
+#include "ble.h"
 
-
-void loop()
+Nimble_Server ble;
+extern "C" void app_main(void)
 {
-delay(1000);
+    ble.begin("Smart_security");
+    while (1)
+    {
+       if(ble.bleSta()) 
+       {
+        printf("%s",ble.get_BleData());
+        DELAY_MS(5000);
+        ble.Write((uint8_t *)"hello world",12);
+       }
+        DELAY_MS(1000);
+    }
 }

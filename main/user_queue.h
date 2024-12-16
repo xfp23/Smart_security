@@ -4,22 +4,30 @@
 #include "stdint.h"
 #include "stddef.h"
 
-/*
- * 版权所有 © 重庆锑锑锑智能装备有限公司 2024。保留所有权利。  
- * Copyright © Chongqing TTT Intelligent Equipment Co., Ltd. 2024. All rights reserved.
+/******************************************************************************
+ * @file user_queue.h
+ * @brief 用户队列驱动
  *
- * 本软件及其相关文档受版权法和其他知识产权法保护。  
- * This software and its related documentation are protected by copyright laws and other intellectual property rights.
+ * Copyright (C) 2024, xfp23. All rights reserved.
  *
- * 未经授权，不得复制、修改或分发本软件的任何部分。  
- * Unauthorized copying, modification, or distribution of any part of this software is strictly prohibited.
+ * @author xfp23 (@github/xfp23)
+ * @date 2024-10-21
+ * 
+ * This software is provided "as is", without any warranties or guarantees, 
+ * either express or implied, including but not limited to the implied warranties 
+ * of merchantability and fitness for a particular purpose. In no event shall the 
+ * author be liable for any damages, including direct, indirect, incidental, or 
+ * consequential damages, arising from the use of this software.
+ * 
+ * Permission is hereby granted, free of charge, to use, copy, modify, and/or 
+ * distribute this software, provided that the above copyright notice and this 
+ * permission notice are included in all copies or substantial portions of the software.
  *
- * 使用本代码即表示同意遵守适用的许可协议或合同条款。  
- * Use of this code implies agreement to the applicable license or contract terms.
- *
- * 有关详细的许可信息，请参阅项目根目录中的 LICENSE 文件。  
- * For detailed license information, please refer to the LICENSE file in the root directory of the project.
- */
+ * This software is also licensed under the MIT License.
+ * 
+ *****************************************************************************/
+
+ 
 
 /**
  * @file user_queue.h
@@ -33,7 +41,7 @@ extern "C"
 #endif
 
 // 请选择队列日志语言 : 英语和汉语，同时置 1 表示双语输出，置 0 表示关闭日志
-#define LOG_LANG_CHINESE 0
+#define LOG_LANG_CHINESE 1
 #define LOG_LANG_ENGLISH 0
 
 #define QUEUE_SIZE 255  // 队列大小

@@ -570,4 +570,3 @@ void write_event_env(esp_gatt_if_t gatts_if, prepare_type_env_t *prepare_write_e
         }
     }
 }
-
