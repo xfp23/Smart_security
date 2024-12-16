@@ -2,6 +2,7 @@
 #define BEEP_H
 
 #include <stdint.h>
+#include "driver/ledc.h"
 /******************************************************************************
  * @file Beep.h
  * @brief 蜂鸣器驱动

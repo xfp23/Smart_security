@@ -199,13 +199,19 @@ void OLED_Init(void)
 #else
 
 gpio_config_t gpio_conf = {
-    .pin_bit_mask = 1ULL << OLED_DC_PIN |  1ULL << OLED_RES_PIN | 1ULL << OLED_CLK_PIN | 1ULL << OLED_DC_PIN | 1ULL << OLED_DIN_PIN,
+    .pin_bit_mask = 1ULL << OLED_DC_PIN |  1ULL << OLED_RES_PIN | 1ULL << OLED_CLK_PIN | 1ULL << OLED_DO_PIN | 1ULL << OLED_DIN_PIN,
     .mode = GPIO_MODE_OUTPUT,
     .intr_type = GPIO_INTR_DISABLE,
     .pull_up_en = GPIO_PULLUP_DISABLE,
     .pull_down_en = GPIO_PULLDOWN_DISABLE,
 };
-gpio_config(&gpio_conf); 
+gpio_config(&gpio_conf);
+// gpio_set_drive_capability(OLED_DC_PIN, GPIO_DRIVE_CAP_3);
+// gpio_set_drive_capability(OLED_RES_PIN, GPIO_DRIVE_CAP_3);
+// gpio_set_drive_capability(OLED_CLK_PIN, GPIO_DRIVE_CAP_3);
+// gpio_set_drive_capability(OLED_DIN_PIN, GPIO_DRIVE_CAP_3);
+// gpio_set_drive_capability(OLED_DO_PIN, GPIO_DRIVE_CAP_3);
+
 
 #endif
 

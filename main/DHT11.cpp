@@ -17,6 +17,7 @@ void DHT11_Class::setInput()
     gpio_config_t io_conf = {
         .pin_bit_mask = 1ULL << Data_pin,
         .mode = GPIO_MODE_INPUT,
+        .pull_up_en = GPIO_PULLUP_ENABLE,
         .pull_down_en = GPIO_PULLDOWN_DISABLE,
         .intr_type = GPIO_INTR_DISABLE,
     };
@@ -28,6 +29,7 @@ void DHT11_Class::SetOutput()
        gpio_config_t io_conf = {
         .pin_bit_mask = 1ULL << Data_pin,
         .mode = GPIO_MODE_OUTPUT,
+        .pull_up_en = GPIO_PULLUP_DISABLE,
         .pull_down_en = GPIO_PULLDOWN_DISABLE,
         .intr_type = GPIO_INTR_DISABLE,
     };
@@ -36,6 +38,7 @@ void DHT11_Class::SetOutput()
 
 pair<float, float> DHT11_Class::read()
 {
+    printf("START READ DHT11\n");
     uint8_t data[5] = {0};
     WRDATA();
     for (int byte = 0; byte < 5; byte++)
@@ -47,7 +50,7 @@ pair<float, float> DHT11_Class::read()
         Hum = data[0] + (float)data[1] / 100;
         Temp = data[2] + (float)data[3] / 100;
     }
-    
+    printf("%d%d%d%d",data[0],data[1],data[2],data[3]);
     return make_pair(Hum, Temp);
 }
 

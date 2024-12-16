@@ -24,19 +24,22 @@
  * 
  *****************************************************************************/
 
-
+#include "hal/adc_types.h"
+#include "esp_adc/adc_oneshot.h"
 
 #define ADC1 ADC_UNIT_1
 #define ADC2 ADC_UNIT_2
 class MQ_2_Class
 {
-    ~MQ_2_Class();// 析构
+
 public:
+    ~MQ_2_Class();// 析构
     void begin(adc_unit_t, adc_channel_t);
     float read();
 
 private:
     adc_oneshot_unit_handle_t adc_handle;
+     adc_channel_t MQ2_Channel;
     uint16_t getAnalog();
 };
 

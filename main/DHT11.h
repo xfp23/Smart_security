@@ -39,12 +39,11 @@ DHT11_Class(gpio_num_t);
 
 float getHum();
 float getTemp();
-
+pair<float, float> read();
 private:
 // bool PinSTA = false;
 gpio_num_t Data_pin;
 uint8_t REDATA();
-pair<float, float> read();
 void WRDATA();
 void setInput();
 void SetOutput();
