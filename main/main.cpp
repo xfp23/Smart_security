@@ -18,6 +18,7 @@ extern "C" void app_main(void)
 {
     ble.begin("Smart_security");
     MQ.begin(ADC2, ADC_CHANNEL_9);
+    dht.setDelay(50);
     beep.begin(BEEP_PIN);
     beep.turn_on(2, 150);
     // esp_task_wdt_config_t wdg = {
@@ -40,14 +41,8 @@ extern "C" void app_main(void)
             ble.Write((uint8_t *)"hello world", 12);
         }
         dht.readTemperatureHumidity(DHT_data[0], DHT_data[1]);
-
-        // DHT_data[0] = dht.readHumidity();
-        // printf("温度 : %d℃\n", DHT_data[0]);
-
-        // DHT_data[1] = dht.readTemperature();
-        // printf("湿度 : %d%%\n", DHT_data[1]);
         printf("温度 : %d℃ 湿度 : %d%%\n", DHT_data[0], DHT_data[1]);
-        printf("%ld\n", millis());
-        delay(1000);
+
+        //delay(1000);
     }
 }

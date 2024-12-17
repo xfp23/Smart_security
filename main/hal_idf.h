@@ -1,11 +1,28 @@
 #ifndef HAL_IDF_H
 #define HAL_IDF_H
-/**
- * @file 创建日期:2024/08/02
- * @author 彭小风
- * @brief 使用此库需要idf版本V5.2 配置cmake为 REQUIRES driver esp_timer 否则会报错
- */
 
+/******************************************************************************
+ * @file hal_idf.h
+ * @brief idf Arduino驱动
+ * @note 使用此库需要idf版本V5.2.x 配置cmake为 REQUIRES driver esp_timer 否则会报错
+ * @note 使用滴答计数器之前请将滴答时钟配置为1ms 在 FreeRTOSConfig.h中 的 configTICK_RATE_HZ = 1000
+ * Copyright (C) 2024, xfp23. All rights reserved.
+ *
+ * @author xfp23 (@github.com/xfp23)
+ * 
+ * This software is provided "as is", without any warranties or guarantees, 
+ * either express or implied, including but not limited to the implied warranties 
+ * of merchantability and fitness for a particular purpose. In no event shall the 
+ * author be liable for any damages, including direct, indirect, incidental, or 
+ * consequential damages, arising from the use of this software.
+ * 
+ * Permission is hereby granted, free of charge, to use, copy, modify, and/or 
+ * distribute this software, provided that the above copyright notice and this 
+ * permission notice are included in all copies or substantial portions of the software.
+ *
+ * This software is also licensed under the MIT License.
+ * 
+ *****************************************************************************/
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/uart.h"

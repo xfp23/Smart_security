@@ -9,6 +9,11 @@ DHT11_Class::DHT11_Class(gpio_num_t pin)
     digitalWrite(_pin, HIGH);
 }
 
+DHT11_Class::~DHT11_Class()
+{
+    gpio_reset_pin(_pin);
+}
+
 void DHT11_Class::setDelay(unsigned long delay)
 {
     _delayMS = delay;
@@ -102,27 +107,27 @@ void DHT11_Class::startSignal()
     pinMode(_pin, INPUT);
 }
 
-int DHT11_Class::readTemperature()
-{
-    uint8_t data[5];
-    int error = readRawData(data);
-    if (error != 0)
-    {
-        return error;
-    }
-    return data[2];
-}
+// int DHT11_Class::readTemperature()
+// {
+//     uint8_t data[5];
+//     int error = readRawData(data);
+//     if (error != 0)
+//     {
+//         return error;
+//     }
+//     return data[2];
+// }
 
-int DHT11_Class::readHumidity()
-{
-    uint8_t data[5];
-    int error = readRawData(data);
-    if (error != 0)
-    {
-        return error;
-    }
-    return data[0];
-}
+// int DHT11_Class::readHumidity()
+// {
+//     uint8_t data[5];
+//     int error = readRawData(data);
+//     if (error != 0)
+//     {
+//         return error;
+//     }
+//     return data[0];
+// }
 
 int DHT11_Class::readTemperatureHumidity(int &temperature, int &humidity)
 {

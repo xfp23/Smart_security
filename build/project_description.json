@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "Smart_security",
-    "project_version":    "1c61c5d-dirty",
+    "project_version":    "e94ed1e-dirty",
     "project_path":       "D:/vs-idf/v5.2-project/Smart_security",
     "idf_path":           "C:/Users/xfp57/esp/v5.2.3/esp-idf",
     "build_dir":          "D:/vs-idf/v5.2-project/Smart_security/build",
@@ -805,7 +805,7 @@
             "managed_reqs": [],
             "managed_priv_reqs": [],
             "file": "D:/vs-idf/v5.2-project/Smart_security/build/esp-idf/main/libmain.a",
-            "sources": [ "D:/vs-idf/v5.2-project/Smart_security/main/main.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/hal_idf_bluetooth.c", "D:/vs-idf/v5.2-project/Smart_security/main/user_queue.c", "D:/vs-idf/v5.2-project/Smart_security/main/ble.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/DHT11.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/hal_idf.c", "D:/vs-idf/v5.2-project/Smart_security/main/MQ_2.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/Beep.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/System.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/oled.c" ],
+            "sources": [ "D:/vs-idf/v5.2-project/Smart_security/main/timer.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/main.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/hal_idf_bluetooth.c", "D:/vs-idf/v5.2-project/Smart_security/main/user_queue.c", "D:/vs-idf/v5.2-project/Smart_security/main/ble.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/DHT11.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/hal_idf.c", "D:/vs-idf/v5.2-project/Smart_security/main/MQ_2.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/Beep.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/System.cpp", "D:/vs-idf/v5.2-project/Smart_security/main/oled.c" ],
             "include_dirs": [ "." ]
         },
         "mbedtls": {

@@ -36,9 +36,10 @@ class DHT11_Class
 {
 public:
   DHT11_Class(gpio_num_t pin);
+  ~DHT11_Class();
   void setDelay(unsigned long delay);
-  int readHumidity();
-  int readTemperature();
+  // int readHumidity();
+  // int readTemperature();
 
   int readTemperatureHumidity(int &temperature, int &humidity);
 
