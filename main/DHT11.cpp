@@ -1,114 +1,164 @@
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
+
 #include "DHT11.h"
-#include "esp_rom_sys.h"
+
+
 DHT11_Class::DHT11_Class(gpio_num_t pin)
 {
-    Data_pin = pin;
+    _pin = pin;
+    pinMode(_pin, OUTPUT);
+    digitalWrite(_pin, HIGH);
 }
 
-DHT11_Class::~DHT11_Class()
+void DHT11_Class::setDelay(unsigned long delay)
 {
-
+    _delayMS = delay;
 }
 
-void DHT11_Class::setInput()
+int DHT11_Class::readRawData(uint8_t data[5])
 {
-    gpio_config_t io_conf = {
-        .pin_bit_mask = 1ULL << Data_pin,
-        .mode = GPIO_MODE_INPUT,
-        .pull_up_en = GPIO_PULLUP_ENABLE,
-        .pull_down_en = GPIO_PULLDOWN_DISABLE,
-        .intr_type = GPIO_INTR_DISABLE,
-    };
-    gpio_config(&io_conf);
-}
+    delay(_delayMS);
+    startSignal();
+    unsigned long timeout_start = millis();
 
-void DHT11_Class::SetOutput()
-{
-       gpio_config_t io_conf = {
-        .pin_bit_mask = 1ULL << Data_pin,
-        .mode = GPIO_MODE_OUTPUT,
-        .pull_up_en = GPIO_PULLUP_DISABLE,
-        .pull_down_en = GPIO_PULLDOWN_DISABLE,
-        .intr_type = GPIO_INTR_DISABLE,
-    };
-    gpio_config(&io_conf);
-}
-
-pair<float, float> DHT11_Class::read()
-{
-    printf("START READ DHT11\n");
-    uint8_t data[5] = {0};
-    WRDATA();
-    for (int byte = 0; byte < 5; byte++)
+    while (digitalRead(_pin) == HIGH)
     {
-        data[byte] = REDATA();
-    }
-    if (data[4] == ((data[0] + data[1] + data[2] + data[3]) & 0xFF))
-    {
-        Hum = data[0] + (float)data[1] / 100;
-        Temp = data[2] + (float)data[3] / 100;
-    }
-    printf("%d%d%d%d",data[0],data[1],data[2],data[3]);
-    return make_pair(Hum, Temp);
-}
-
-uint8_t DHT11_Class::REDATA() {
-    uint8_t data = 0;
-    // 检查起始信号
-    if (gpio_get_level(Data_pin) == 0) {
-        esp_rom_delay_us(80); 
-        if (gpio_get_level(Data_pin) == 1) {
-            esp_rom_delay_us(80); 
-
-            // 开始读取 8 位数据
-            for (int i = 7; i >= 0; i--) {
-                // 等待信号变为低电平（每个数据位的开始）
-                uint32_t timeout = 1000; // 超时时间（微秒）
-                while (gpio_get_level(Data_pin) == 0 && --timeout > 0) {
-                    esp_rom_delay_us(1);
-                }
-                timeout = 1000;
-                while (gpio_get_level(Data_pin) == 1 && --timeout > 0) {
-                    esp_rom_delay_us(1);
-                }
-
-                // 检查高电平持续时间
-                esp_rom_delay_us(40); // 等待至少 40us
-                if (gpio_get_level(Data_pin) == 1) {
-                    data |= (1 << i); // 如果高电平持续时间长，则为 1
-                }
-
-                // 等待信号变为低电平，准备下一个数据位
-                timeout = 1000;
-                while (gpio_get_level(Data_pin) == 1 && --timeout > 0) {
-                    esp_rom_delay_us(1);
-                }
-            }
+         esp_task_wdt_reset(); // 喂狗
+        if (millis() - timeout_start > TIMEOUT_DURATION)
+        {
+            return DHT11_Class::ERROR_TIMEOUT;
         }
     }
 
-    return data;
+    if (digitalRead(_pin) == LOW)
+    {
+        delayMicroseconds(80);
+        if (digitalRead(_pin) == HIGH)
+        {
+            delayMicroseconds(80);
+            for (int i = 0; i < 5; i++)
+            {
+                data[i] = readByte();
+                if (data[i] == DHT11_Class::ERROR_TIMEOUT)
+                {
+                    return DHT11_Class::ERROR_TIMEOUT;
+                }
+            }
+
+            if (data[4] == ((data[0] + data[1] + data[2] + data[3]) & 0xFF))
+            {
+                return 0; // Success
+            }
+            else
+            {
+                return DHT11_Class::ERROR_CHECKSUM;
+            }
+        }
+    }
+    return DHT11_Class::ERROR_TIMEOUT;
 }
 
-
-void DHT11_Class::WRDATA()
+uint8_t DHT11_Class::readByte()
 {
-    SetOutput();
-    gpio_set_level(Data_pin, 0); // 拉低至少 18 ms
-    vTaskDelay(pdMS_TO_TICKS(18));
-    gpio_set_level(Data_pin, 1); // 拉高 20~40 µs
-    esp_rom_delay_us(40);
+    unsigned long timeout_start = millis();
+    uint8_t value = 0;
+
+    for (int i = 0; i < 8; i++)
+    {
+        while (digitalRead(_pin) == LOW)
+        {
+             esp_task_wdt_reset(); // 喂狗
+           if (millis() - timeout_start > TIMEOUT_DURATION)
+            {
+                break;
+            }
+        }
+ 
+        delayMicroseconds(30);
+        if (digitalRead(_pin) == HIGH)
+        {
+            value |= (1 << (7 - i));
+        }
+        timeout_start = millis();
+        while (digitalRead(_pin) == HIGH)
+        {
+            
+             //esp_task_wdt_reset(); // 喂狗
+            if (millis() - timeout_start > TIMEOUT_DURATION)
+            {
+                break;
+            }
+        }
+    }
+    return value;
 }
 
-
-float DHT11_Class::getHum()
+void DHT11_Class::startSignal()
 {
-    return Hum;
+    pinMode(_pin, OUTPUT);
+    digitalWrite(_pin, LOW);
+    delay(18);
+    digitalWrite(_pin, HIGH);
+    delayMicroseconds(40);
+    pinMode(_pin, INPUT);
 }
 
-float DHT11_Class::getTemp()
+int DHT11_Class::readTemperature()
 {
-    return Temp;
+    uint8_t data[5];
+    int error = readRawData(data);
+    if (error != 0)
+    {
+        return error;
+    }
+    return data[2];
 }
+
+int DHT11_Class::readHumidity()
+{
+    uint8_t data[5];
+    int error = readRawData(data);
+    if (error != 0)
+    {
+        return error;
+    }
+    return data[0];
+}
+
+int DHT11_Class::readTemperatureHumidity(int &temperature, int &humidity)
+{
+    uint8_t data[5];
+    int error = readRawData(data);
+    if (error != 0)
+    {
+        return error;
+    }
+    humidity = data[0];
+    temperature = data[2];
+    return 0; // Indicate success
+}
+
+string DHT11_Class::getErrorString(int errorCode)
+{
+    switch (errorCode)
+    {
+    case DHT11_Class::ERROR_TIMEOUT:
+        return "Error 253 Reading from DHT11_Class timed out.";
+    case DHT11_Class::ERROR_CHECKSUM:
+        return "Error 254 Checksum mismatch while reading from DHT11_Class.";
+    default:
+        return "Error Unknown.";
+    }
+}
+
+// void DHT11_Class::pinMode(gpio_num_t pin,gpio_mode_t mode)
+// {
+//     gpio_config_t gpio_conf = {
+//         .pin_bit_mask = 1ULL << pin,
+//         .mode = mode,
+//         .pull_up_en = GPIO_PULLUP_DISABLE,
+//         .pull_down_en = GPIO_PULLDOWN_DISABLE,
+//         .intr_type = GPIO_INTR_DISABLE
+//     };
+//     gpio_config(&gpio_conf);
+// }
+

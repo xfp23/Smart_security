@@ -4,7 +4,9 @@
 #include <tuple>
 #include <iostream>
 #include "driver/gpio.h"
-
+#include "esp_task_wdt.h"
+#include "hal_idf.h"
+using namespace std;
 
 /******************************************************************************
  * @file DHT11.h
@@ -32,23 +34,33 @@ using namespace std;
 
 class DHT11_Class
 {
-
 public:
-DHT11_Class(gpio_num_t);
-~DHT11_Class();
+  DHT11_Class(gpio_num_t pin);
+  void setDelay(unsigned long delay);
+  int readHumidity();
+  int readTemperature();
 
-float getHum();
-float getTemp();
-pair<float, float> read();
+  int readTemperatureHumidity(int &temperature, int &humidity);
+
+  // Constants to represent error codes.
+  static const int ERROR_CHECKSUM = 254;    // Error code indicating checksum mismatch.
+  static const int ERROR_TIMEOUT = 253;     // Error code indicating a timeout occurred during reading.
+  static const int TIMEOUT_DURATION = 100; // Duration (in milliseconds) to wait before timing out.
+
+  static string getErrorString(int errorCode);
+
 private:
-// bool PinSTA = false;
-gpio_num_t Data_pin;
-uint8_t REDATA();
-void WRDATA();
-void setInput();
-void SetOutput();
-float Hum;
-float Temp;
+  gpio_num_t _pin;                    
+  unsigned long _delayMS = 500; 
+
+  int readRawData(uint8_t data[5]);
+
+// void pinMode(gpio_num_t,gpio_mode_t);
+
+  uint8_t readByte();
+
+
+  void startSignal();
 };
 
 

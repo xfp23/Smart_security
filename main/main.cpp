@@ -6,39 +6,48 @@
 #include "DHT11.h"
 #include "pins.h"
 #include "MQ_2.h"
+#include "esp_task_wdt.h"
+
 Nimble_Server ble;
 DHT11_Class dht(DHT11_PIN);
 Beep_Class beep;
 MQ_2_Class MQ;
+int DHT_data[2];
 
 extern "C" void app_main(void)
 {
     ble.begin("Smart_security");
-    MQ.begin(ADC2,ADC_CHANNEL_9);
-  // OLED_Init();
-   //OLED_Display_On();
-   //LED_ON;
-   DELAY_MS(1000);
-
-   OLED_ShowString(0,0,(u8 *)"hello world");
-   gpio_set_level(OLED_DC_PIN,1);
+    MQ.begin(ADC2, ADC_CHANNEL_9);
     beep.begin(BEEP_PIN);
-   // beep.turn_on(2,150);
+    beep.turn_on(2, 150);
+    // esp_task_wdt_config_t wdg = {
+    //     .timeout_ms = 10000,
+    //     .idle_core_mask = 1,
+    //     .trigger_panic = true
+    //     };
+    // esp_task_wdt_init(&wdg);
+    esp_task_wdt_add(NULL); // NULL表示当前任务
+
     while (1)
     {
-       if(ble.bleSta()) 
-       {
+        esp_task_wdt_reset(); // 喂狗
+        if (ble.bleSta())
+        {
 
-        printf("%s",ble.get_BleData());
+            printf("%s", ble.get_BleData());
 
-        DELAY_MS(5000);
-        ble.Write((uint8_t *)"hello world",12);
+            delay(5000);
+            ble.Write((uint8_t *)"hello world", 12);
+        }
+        dht.readTemperatureHumidity(DHT_data[0], DHT_data[1]);
 
-       }
-       
-        dht.read();
-        printf("Hum : %.2f  Temp : %.2f MQ-2 : %.2f%%\n",dht.getHum(),dht.getTemp(),MQ.read());
-        //OLED_ShowNum(0,0,MQ.read(),2,16);
-        DELAY_MS(1000);
+        // DHT_data[0] = dht.readHumidity();
+        // printf("温度 : %d℃\n", DHT_data[0]);
+
+        // DHT_data[1] = dht.readTemperature();
+        // printf("湿度 : %d%%\n", DHT_data[1]);
+        printf("温度 : %d℃ 湿度 : %d%%\n", DHT_data[0], DHT_data[1]);
+        printf("%ld\n", millis());
+        delay(1000);
     }
 }

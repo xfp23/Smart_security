@@ -30,12 +30,24 @@ extern "C" {
 //#define ESP32    
 
 /*************************延时************************/
-#define millis()       (esp_timer_get_time() / 1000)
-#define DELAY_US(us)   esp_rom_delay_us(us)
-#define DELAY_MS(ms)   vTaskDelay(pdMS_TO_TICKS(ms))
+#define millis()      pdTICKS_TO_MS(xTaskGetTickCount()) // (esp_timer_get_time()/1000)
+#define delayMicroseconds(us)   esp_rom_delay_us(us)
+#define delay(ms)   vTaskDelay(pdMS_TO_TICKS(ms))
 
 /*********************************GPIO***************************/
-#define pinMode(pin, mode)  gpio_set_direction(pin, mode)
+#define pinMode(pin, mode)                 \
+    do                                     \
+    {                                      \
+        if (pin != -1)                     \
+        {                                  \
+            gpio_set_direction(pin, mode); \
+        }                                  \
+    } while (0)
+    
+#define digitalWrite(pin, level) gpio_set_level(pin, level)
+#define digitalRead(pin) gpio_get_level(pin)
+#define OUTPUT GPIO_MODE_OUTPUT
+#define INPUT GPIO_MODE_INPUT
 
 enum {
     HIGH = 0x01, //高电平
