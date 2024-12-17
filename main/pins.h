@@ -1,6 +1,8 @@
 #ifndef PINS_H
 #define PINS_H
 
+#define SW1_PIN GPIO_NUM_0 // 未确定
+#define BODY_PIN GPIO_NUM_21 // 未确定
 #define BEEP_PIN  GPIO_NUM_22
 #define MQ2_DIG_PIN GPIO_NUM_19
 #define MQ2_AN_PIN GPIO_NUM_25

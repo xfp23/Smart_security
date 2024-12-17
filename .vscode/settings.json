@@ -80,6 +80,9 @@
         "thread": "c",
         "cinttypes": "c",
         "typeinfo": "c",
-        "variant": "c"
+        "variant": "c",
+        "forward_list": "cpp",
+        "executor": "cpp",
+        "io_context": "cpp"
     }
 }

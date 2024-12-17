@@ -55,7 +55,7 @@ void Beep_Class::begin(gpio_num_t gpio)
  */
 void Beep_Class::turn_on(uint8_t count, uint16_t time, float percent)
 {
-    uint16_t duty = percent * 8196;
+    uint16_t duty = percent/100 * 8196;
     if (percent < 0)
     {
         duty = 0;
