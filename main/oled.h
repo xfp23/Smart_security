@@ -36,8 +36,8 @@ extern "C"
 
 #include "pins.h"
 #define OLED_DC_PIN OLED_DC_Pin
-#define OLED_CLK_PIN OLED_DI_PIN
-#define OLED_DIN_PIN OLED_DO_PIN
+#define OLED_CLK_PIN  OLED_DO_PIN
+#define OLED_DIN_PIN OLED_DI_PIN
 #define OLED_RES_PIN OLED_RES_Pin
 #define OLED_CS_PIN OLED_CS_Pin
 

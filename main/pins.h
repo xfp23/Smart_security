@@ -5,7 +5,7 @@
 #define BODY_PIN GPIO_NUM_21 // 未确定
 #define BEEP_PIN  GPIO_NUM_22
 #define MQ2_DIG_PIN GPIO_NUM_19
-#define MQ2_AN_PIN GPIO_NUM_25
+#define MQ2_AN_PIN GPIO_NUM_15
 #define OLED_DO_PIN GPIO_NUM_26
 #define OLED_DI_PIN GPIO_NUM_27//
 #define OLED_RES_Pin GPIO_NUM_14//

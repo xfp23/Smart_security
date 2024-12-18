@@ -91,11 +91,18 @@ void System_Init(void)
     printf("SYSTEM Init2\n");
     Beep.begin(BEEP_PIN);
     printf("SYSTEM Init3\n");
-    MQ.begin(ADC2, ADC_CHANNEL_9);
+    MQ.begin(ADC2, ADC_CHANNEL_4);
     printf("SYSTEM Init4\n");
     timer.RegisterAlarm(timer_callback);
     printf("SYSTEM Init5\n");
     timer.begin();
+    OLED_Init();
+    OLED_Clear();
+    // OLED_ShowString(0, 0, (u8 *)"Person  :     ");
+    // OLED_ShowString(0, 2, (u8 *)"Temp    :     ");
+    // OLED_ShowString(0, 4, (u8 *)"Humidity:    %");
+    // OLED_ShowString(0, 6, (u8 *)"Smoke   :    %");
+    // OLED_ShowString(80, 0, (u8 *)"N");
 }
 
 /**
@@ -113,34 +120,40 @@ void System_Init(void)
  */
 void DealWith_ble()
 {
-    char *data = NULL;
-   
-    if (ble.bleSta() == true && (data = ble.get_BleData()) != NULL)
+    char data[8] = {0};
+
+    if (ble.bleSta() == true)
     {
-         printf("Ble : %s" ,data);
-        System.flag.Beep = BLE;
-        if (!strcmp(data, "ON"))
-        {
-            System.flag.Power = ON;
-        }
+        mempcpy(data, ble.get_BleData(), 8);
 
-        if (!strcmp(data, "OFF"))
+        if (strlen(data) > 0 && (data[0] != '\n' || data[0] != ' '))
         {
-            System.flag.Power = OFF;
-        }
-        if (!strcmp(data, "beep"))
-        {
-             Beep.turn_on(2, 150);
-        }
+            System.flag.Beep = BLE;
+            if (!strcmp(data, "ON\n"))
+            {
+                System.flag.Power = ON;
+                System.flag.Screen = ON;
+            }
 
-        if (!strcmp(data, "scrON"))
-        {
-            System.flag.Screen = ON;
-        }
+            if (!strcmp(data, "OFF\n"))
+            {
+                System.flag.Power = OFF;
+                System.flag.Screen = OFF;
+            }
+            if (!strcmp(data, "beep\n"))
+            {
+                Beep.turn_on(2, 150);
+            }
 
-        if (!strcmp(data, "scrOFF"))
-        {
-            System.flag.Screen = OFF;
+            if (!strcmp(data, "scrON\n"))
+            {
+                System.flag.Screen = ON;
+            }
+
+            if (!strcmp(data, "scrOFF\n"))
+            {
+                System.flag.Screen = OFF;
+            }
         }
     }
 }
@@ -151,22 +164,25 @@ void DealWith_ble()
  */
 void DealWith_error()
 {
-    if (System.sensor.Smoke > 50.00 && System.sensor.Smoke < 100.00) // 烟雾报警
+    if (System.flag.Power == ON)
     {
-        System.flag.Beep = MQ_2;
-    }
-    if (System.sensor.Body == ON)
-    {
-        System.flag.Beep = BODY;
-        System.sensor.Body = OFF;
-    }
-    if (System.sensor.Hum > 50 && System.sensor.Hum < 100)
-    {
-        System.flag.Beep = DHT11_HUM;
-    }
-    if (System.sensor.Temp > 40 && System.sensor.Temp < 100)
-    {
-        System.flag.Beep = DHT11_TEMP;
+        if (System.sensor.Smoke > SMOKE_MIN && System.sensor.Smoke <= SMOKE_MAX) // 烟雾报警
+        {
+            System.flag.Beep = MQ_2;
+        }
+        if (System.sensor.Body == ON)
+        {
+            System.flag.Beep = BODY;
+            System.sensor.Body = OFF;
+        }
+        if (System.sensor.Hum > SMOKE_MAX && System.sensor.Hum < SMOKE_MIN)
+        {
+            System.flag.Beep = DHT11_HUM;
+        }
+        if (System.sensor.Temp > TEMP_MAX && System.sensor.Temp < TEMP_MIN)
+        {
+            System.flag.Beep = DHT11_TEMP;
+        }
     }
 }
 
@@ -196,4 +212,36 @@ void Delawith_Beep()
         break;
     }
     System.flag.Beep = BEEP_OFF;
+}
+
+void DealWith_oled()
+{
+    static bool oled_flag = false;
+    if (System.flag.Screen == ON)
+    {
+        oled_flag = true;
+        OLED_ShowString(0, 0, (u8 *)"Person  :     ");
+        OLED_ShowString(0, 2, (u8 *)"Temp    :     ");
+        OLED_ShowString(0, 4, (u8 *)"Humidity:    %");
+        OLED_ShowString(0, 6, (u8 *)"Smoke   :    %");
+        if (System.sensor.Body)
+        {
+            OLED_ShowString(80, 0, (u8 *)"Y");
+        }
+        else if (!System.sensor.Body)
+        {
+            OLED_ShowString(80, 0, (u8 *)"N");
+        }
+        OLED_ShowString(75, 2, (u8 *)"  ");
+
+        OLED_ShowNum(75, 2, System.sensor.Temp, 2, 16);
+        OLED_ShowString(75, 4, (u8 *)"  ");
+        OLED_ShowNum(75, 4, System.sensor.Hum, 2, 16);
+        OLED_ShowString(75, 6, (u8 *)"  ");
+        OLED_ShowNum(75, 6, (int)(System.sensor.Smoke), 3, 16);
+    }
+    else if (System.flag.Screen == OFF)
+    {
+        OLED_Clear();
+    }
 }

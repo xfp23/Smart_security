@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "Smart_security",
-    "project_version":    "14189e5-dirty",
+    "project_version":    "b80158c-dirty",
     "project_path":       "D:/vs-idf/v5.2-project/Smart_security",
     "idf_path":           "C:/Users/xfp57/esp/v5.2.3/esp-idf",
     "build_dir":          "D:/vs-idf/v5.2-project/Smart_security/build",

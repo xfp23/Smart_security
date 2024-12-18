@@ -41,7 +41,7 @@ extern "C"
 #endif
 
 // 请选择队列日志语言 : 英语和汉语，同时置 1 表示双语输出，置 0 表示关闭日志
-#define LOG_LANG_CHINESE 1
+#define LOG_LANG_CHINESE 0
 #define LOG_LANG_ENGLISH 0
 
 #define QUEUE_SIZE 255  // 队列大小

@@ -12,7 +12,7 @@ class Timer_Class
 public:
     Timer_Class();
     ~Timer_Class();
-    void begin(uint32_t hz = 1000000,uint8_t intr = 2,uint32_t alarm  = 10000,uint32_t reload = 0);
+    void begin(uint32_t hz = 40000000,uint8_t intr = 2,uint32_t alarm  = 40000,uint32_t reload = 0);
     void RegisterAlarm(Timer_Alarm fun);
     void start(); // 启动定时器
     void stop(); // 停止定时器

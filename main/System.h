@@ -8,6 +8,7 @@
 #include "esp_task_wdt.h"
 #include "timer.h"
 #include "ble.h"
+#include "oled.h"
 
 #define ON 1
 #define OFF 0
@@ -64,7 +65,13 @@ typedef struct
     bool Body;   // 人体红外
 } Sensor_t;
 
-
+// 传感器阈值
+#define TEMP_MIN 0
+#define TEMP_MAX 40
+#define HUM_MIN 20
+#define HUM_MAX 70
+#define SMOKE_MIN 70
+#define SMOKE_MAX 100
 
 
 typedef struct
@@ -79,6 +86,7 @@ typedef struct
 extern void Delawith_Beep();
 extern void DealWith_ble();
 extern void DealWith_error();
+extern void DealWith_oled();
 extern volatile System_Class_t System;
 extern void System_Init(void);
 extern Nimble_Server ble; // 蓝牙
