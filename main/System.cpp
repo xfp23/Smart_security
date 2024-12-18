@@ -1,11 +1,11 @@
 #include "System.h"
 
-Nimble_Server ble; // 蓝牙
+Nimble_Server ble;
 volatile System_Class_t System;
-Timer_Class timer;          // 定时器对象
-DHT11_Class dht(DHT11_PIN); // 温湿度传感器
-Beep_Class Beep;            // 蜂鸣器
-MQ_2_Class MQ;              // 烟雾传感器
+Timer_Class timer;       
+DHT11_Class dht(DHT11_PIN); 
+Beep_Class Beep;            
+MQ_2_Class MQ;             
 
 bool timer_callback(gptimer_handle_t timer, const gptimer_alarm_event_data_t *edata, void *user_ctx)
 {
@@ -69,7 +69,7 @@ static void gpio_init()
         .intr_type = GPIO_INTR_NEGEDGE,
     };
 
-    gpio_install_isr_service(0); // 使用默认标志
+    gpio_install_isr_service(0);
     gpio_isr_handler_add(SW1_PIN, Switch_1Handle, (void *)SW1_PIN);
     gpio_config(&gpio_conf);
     gpio_conf = {
@@ -83,26 +83,15 @@ static void gpio_init()
 }
 void System_Init(void)
 {
-    printf("SYSTEM Init\n");
     memset((void *)&System.flag, 0, sizeof(System_flag_t));
-    printf("SYSTEM Init1\n");
     gpio_init();
     ble.begin("Smart_security");
-    printf("SYSTEM Init2\n");
     Beep.begin(BEEP_PIN);
-    printf("SYSTEM Init3\n");
     MQ.begin(ADC2, ADC_CHANNEL_4);
-    printf("SYSTEM Init4\n");
     timer.RegisterAlarm(timer_callback);
-    printf("SYSTEM Init5\n");
     timer.begin();
     OLED_Init();
     OLED_Clear();
-    // OLED_ShowString(0, 0, (u8 *)"Person  :     ");
-    // OLED_ShowString(0, 2, (u8 *)"Temp    :     ");
-    // OLED_ShowString(0, 4, (u8 *)"Humidity:    %");
-    // OLED_ShowString(0, 6, (u8 *)"Smoke   :    %");
-    // OLED_ShowString(80, 0, (u8 *)"N");
 }
 
 /**

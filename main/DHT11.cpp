@@ -27,7 +27,7 @@ int DHT11_Class::readRawData(uint8_t data[5])
 
     while (digitalRead(_pin) == HIGH)
     {
-         esp_task_wdt_reset(); // 喂狗
+         esp_task_wdt_reset();
         if (millis() - timeout_start > TIMEOUT_DURATION)
         {
             return DHT11_Class::ERROR_TIMEOUT;
@@ -71,7 +71,7 @@ uint8_t DHT11_Class::readByte()
     {
         while (digitalRead(_pin) == LOW)
         {
-             esp_task_wdt_reset(); // 喂狗
+             esp_task_wdt_reset();
            if (millis() - timeout_start > TIMEOUT_DURATION)
             {
                 break;

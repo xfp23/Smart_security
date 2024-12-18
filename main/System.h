@@ -23,9 +23,8 @@
  * @brief 蓝牙通信协议制定
  *
  */
-// "beep" 蜂鸣器响 
-//"screen" 开启屏幕显示 
-//"close" 关闭屏幕 
+//"scrON" 开启屏幕显示 
+//"scrOFF" 关闭屏幕 
 //"OFF" 关机
 //"ON" 开机
 
@@ -50,22 +49,20 @@ typedef enum {
 
 typedef struct
 {
-    uint8_t Power : 1; // 开机
-    // uint8_t PowerOFF : 1;    // 关机
-    uint8_t Screen : 1;      // 屏幕
-    uint8_t Reserve_bit : 6; // 保留
-    Beep_alarm_t Beep;       // 蜂鸣器
+    uint8_t Power : 1;
+    uint8_t Screen : 1;      
+    uint8_t Reserve_bit : 6; 
+    Beep_alarm_t Beep;   
 } System_flag_t;
 
 typedef struct
 {
-    int Temp;  // 温度
-    int Hum;   // 湿度
-    float Smoke; // 烟雾
-    bool Body;   // 人体红外
+    int Temp; 
+    int Hum;   
+    float Smoke; 
+    bool Body;  
 } Sensor_t;
 
-// 传感器阈值
 #define TEMP_MIN 0
 #define TEMP_MAX 40
 #define HUM_MIN 20
@@ -76,10 +73,9 @@ typedef struct
 
 typedef struct
 {
-    timer_flag_t timer; // 定时器
-    System_flag_t flag; // 系统标志
-    Sensor_t sensor;    // 系统传感器值
-    // uint8_t Rx_buffer[256];// 蓝牙接收缓存
+    timer_flag_t timer; 
+    System_flag_t flag;
+    Sensor_t sensor;   
 } System_Class_t;
 
 // extern void DealWith_Body();
@@ -89,9 +85,9 @@ extern void DealWith_error();
 extern void DealWith_oled();
 extern volatile System_Class_t System;
 extern void System_Init(void);
-extern Nimble_Server ble; // 蓝牙
-extern Timer_Class timer;          // 定时器对象
-extern DHT11_Class dht; // 温湿度传感器
-extern Beep_Class Beep;            // 蜂鸣器
-extern MQ_2_Class MQ;              // 烟雾传感器
+extern Nimble_Server ble;
+extern Timer_Class timer;        
+extern DHT11_Class dht;
+extern Beep_Class Beep;            
+extern MQ_2_Class MQ;            
 #endif
