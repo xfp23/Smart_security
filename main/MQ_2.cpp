@@ -76,7 +76,7 @@ if (ret != ESP_OK) {
     printf("ADC read failed: %s\n", esp_err_to_name(ret));
     //result = 0; // 返回一个默认值
 }
-printf("ADC Value : %d Vol : %.2f\n",result,result *3.3/4096);
+// printf("ADC Value : %d Vol : %.2f\n",result,result *3.3/4096);
 return (uint16_t)result;
 
 }

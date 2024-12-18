@@ -86,14 +86,14 @@ void System_Init(void)
     printf("SYSTEM Init\n");
     memset((void *)&System.flag, 0, sizeof(System_flag_t));
     printf("SYSTEM Init1\n");
-    // gpio_init();
+    gpio_init();
     ble.begin("Smart_security");
     printf("SYSTEM Init2\n");
     Beep.begin(BEEP_PIN);
     printf("SYSTEM Init3\n");
     MQ.begin(ADC2, ADC_CHANNEL_9);
     printf("SYSTEM Init4\n");
-
+    timer.RegisterAlarm(timer_callback);
     printf("SYSTEM Init5\n");
     timer.begin();
 }
@@ -114,9 +114,10 @@ void System_Init(void)
 void DealWith_ble()
 {
     char *data = NULL;
-
+   
     if (ble.bleSta() == true && (data = ble.get_BleData()) != NULL)
     {
+         printf("Ble : %s" ,data);
         System.flag.Beep = BLE;
         if (!strcmp(data, "ON"))
         {
@@ -129,7 +130,7 @@ void DealWith_ble()
         }
         if (!strcmp(data, "beep"))
         {
-            Beep.turn_on(2, 150);
+             Beep.turn_on(2, 150);
         }
 
         if (!strcmp(data, "scrON"))
