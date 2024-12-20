@@ -63,12 +63,12 @@ typedef struct
     bool Body;  
 } Sensor_t;
 
-#define TEMP_MIN 0
-#define TEMP_MAX 40
-#define HUM_MIN 20
+//#define TEMP_MIN 30 
+#define TEMP_MAX 30
+//#define HUM_MIN 20
 #define HUM_MAX 70
-#define SMOKE_MIN 70
-#define SMOKE_MAX 100
+//#define SMOKE_MIN 70
+#define SMOKE_MAX 30
 
 
 typedef struct

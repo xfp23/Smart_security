@@ -155,7 +155,7 @@ void DealWith_error()
 {
     if (System.flag.Power == ON)
     {
-        if (System.sensor.Smoke > SMOKE_MIN && System.sensor.Smoke <= SMOKE_MAX) // 烟雾报警
+        if ( System.sensor.Smoke >= SMOKE_MAX) // 烟雾报警
         {
             System.flag.Beep = MQ_2;
         }
@@ -164,11 +164,11 @@ void DealWith_error()
             System.flag.Beep = BODY;
             System.sensor.Body = OFF;
         }
-        if (System.sensor.Hum > SMOKE_MAX && System.sensor.Hum < SMOKE_MIN)
+        if (System.sensor.Hum > SMOKE_MAX)
         {
             System.flag.Beep = DHT11_HUM;
         }
-        if (System.sensor.Temp > TEMP_MAX && System.sensor.Temp < TEMP_MIN)
+        if (System.sensor.Temp > TEMP_MAX)
         {
             System.flag.Beep = DHT11_TEMP;
         }
